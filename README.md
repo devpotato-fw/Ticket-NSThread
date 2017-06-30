@@ -21,14 +21,14 @@ thread.threadPriority = NSQualityOfServiceUserInteractive;
 3、开启线程，执行下载图片方法
 [thread start];
 
-// 下载图片方法
+下载图片方法
 -(void)downloadImage:(NSString *)url
 {
 NSData *data = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:url]];
 UIImage *image = [[UIImage alloc]initWithData:data];
 if(image)
 {
-// 线程下载完图片后通知主线程更新界面
+线程下载完图片后通知主线程更新界面
 [self performSelectorOnMainThread:@selector(updateUI:) withObject:image waitUntilDone:YES];
 }
 }
@@ -37,12 +37,15 @@ if(image)
 {
 self.imageView.image = image;
 }  
+
 方法二：
 NSThread初始化线程（类方法）:会马上创建并开启新线程
 [NSThread detachNewThreadSelector:@selector(downloadImage:) toTarget:self withObject:@"http://avatar.csdn.net/2/C/D/1_totogo2010.jpg"];
+
 方法三：
 使用 NSObject 的方法，隐式创建线程的方法
 [self performSelectorInBackground:@selector(downloadImage:) withObject:@"http://avatar.csdn.net/2/C/D/1_totogo2010.jpg"];
+
 补充：
 取消线程
 - (void)cancel;
